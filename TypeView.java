@@ -83,12 +83,13 @@ public class TypeView {
     private static void updateType(int typeId) {
         System.out.println("您选择的类别:");
         Type type = TypeController.getTypeById(typeId);
-        System.out.println("类别id" + type.getId() + " 类别名:" + type.getName());
-        System.out.println("请选择操作(1.修类别名 2.删除类别 0.返回主页");
+        System.out.println("类别id:" + type.getId() + " 类别名:" + type.getName());
+        System.out.println("请选择操作(1.修改类别名 2.删除类别 0.返回主页");
         switch (Input.getInt("[0-2]")){
         case 0:
             return;
         case 1:
+            System.out.println("请输入新的类别名:");
             type.setName(Input.getString(20));
             break;
         case 2:

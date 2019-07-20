@@ -40,7 +40,7 @@ public class BgMain {
                 break;
             case 4:
                 UserView.updateUserInfo();
-                return;
+                break;
             default:
                 System.err.println("无此操作");
                 break;

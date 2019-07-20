@@ -30,7 +30,7 @@ public class MenuView {
 //                MenuView.showMenu(list);
             }
         } else if (UserController.USER.getIdentify() == 2) {
-            list = MenuController.getMenuListByRid(UserController.USER.getId());// 根据rid返回Menu List
+            list = MenuController.getMenuListByRid(RestaurantController.RID);// 根据rid返回Menu List
             MenuView.showMenu(list);
         } else {
             UserView.userIdentifyNotFound();
@@ -46,9 +46,9 @@ public class MenuView {
             System.out.println("菜单为空");
         } else {
             for (Menu m : list) {
-                System.out.println(m.getId() + "." + m.getName() + "价格:" + m.getPrice() + 
-                        "类型:" + m.getType() + "描述:" + m.getMDescribe() + 
-                        "店铺名:" + RestaurantController.getNameByRid(m.getRid()) );
+                System.out.println(m.getId() + "." + m.getName() + " 价格:" + m.getPrice() + 
+                        " 类型:" + m.getType() + " 描述:" + m.getMDescribe() + 
+                        " 店铺名:" + RestaurantController.getNameByRid(m.getRid()) );
             }
         }
     }
