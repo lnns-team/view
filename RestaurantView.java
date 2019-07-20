@@ -1,5 +1,7 @@
 package com.lnsf.book.view;
 
+import java.util.List;
+
 import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
@@ -19,5 +21,47 @@ public class RestaurantView {
             Main.fail();
         }
     }
+
+    public static void showAllRestaurant() {
+        List<Restaurant> list = RestaurantController.getAllRestaurantList();
+        if (list.isEmpty()){
+            System.out.println("Ohhhhhh倒霉了居然没餐厅");
+        } else {
+            for (Restaurant r : list){
+                System.out.println(r.getId() + "." + r.getName() + " 店主:" + 
+            r.getUserid() + " 店铺地址:" + r.getAddress());
+            }
+        }
+    }
+
+    public static void operateRestaurant() {
+        showAllRestaurant();
+        System.out.println("请输入序号选择餐厅(输入0返回)");
+        int rid = Input.getInt();
+        if (rid == 0){
+            
+        } else if (RestaurantController.isExist(rid)){
+            
+        } else {
+            System.out.println("没有这个餐厅噢");
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }

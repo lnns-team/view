@@ -3,6 +3,7 @@ package com.lnsf.book.view;
 import java.awt.MenuContainer;
 
 import com.lnsf.book.controller.MenuController;
+import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
 import com.lnsf.book.model.User;
@@ -21,6 +22,7 @@ public class UserView {
             Main.loginFail();
             return;
         case 1:
+            RestaurantController.RID = -1;// 登录完这个值设置-1
             FgMain.userMainView();
             break;
         case 2:
@@ -48,6 +50,8 @@ public class UserView {
           if (UserController.USER.getIdentify() == 1){
               
           } else if (UserController.USER.getIdentify() == 2){
+              UserController.USER.setId(
+                      UserController.getUserIdByUsername(UserController.USER.getUsername()));
               RestaurantView.register();
           } else {
               System.err.println("身份既不是用户也不是商家错误");

@@ -28,7 +28,7 @@ public class FgMain {
                 System.out.println("------------------");
                 return;
             case 1:
-//                MenuController.showMenu();
+                RestaurantView.operateRestaurant();
                 break;
             case 2:
 //                TradeView.showShoppingCart();

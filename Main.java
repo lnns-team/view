@@ -16,7 +16,7 @@ public class Main {
     public static void mianView() {
         do {
             System.out.println("***************************");
-            System.out.println("*******欢迎使用开饭啦********");
+            System.out.println("*******欢迎使用饱了么********");
             System.out.println("***************************");
             System.out.println("\t 1.登录");
             System.out.println("\t 2.注册");
