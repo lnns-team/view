@@ -47,7 +47,7 @@ public class MenuView {
         } else {
             for (Menu m : list) {
                 System.out.println(m.getId() + "." + m.getName() + " 价格:" + m.getPrice() + 
-                        " 类型:" + m.getType() + " 描述:" + m.getMDescribe() + 
+                        " 类型:" + TypeController.getTypeNameById(m.getType()) + " 描述:" + m.getMDescribe() + 
                         " 店铺名:" + RestaurantController.getNameByRid(m.getRid()) );
             }
         }
