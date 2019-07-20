@@ -1,6 +1,7 @@
 package com.lnsf.book.view;
 
 import com.lnsf.book.controller.MenuController;
+import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
 import com.lnsf.book.model.User;
@@ -11,6 +12,7 @@ public class BgMain {
      */
     public static void businessMainView(){
         do {
+            System.out.println("你的店铺id是:" + RestaurantController.RID);
             System.out.println("***************************\n");
             System.out.println("\t 1.查看订单\n");
             System.out.println("\t 2.查看菜单\n");

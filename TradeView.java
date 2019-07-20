@@ -2,6 +2,7 @@ package com.lnsf.book.view;
 
 import java.util.List;
 
+import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.TradeController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
@@ -22,7 +23,7 @@ public class TradeView {
             int tradeId = Input.getInt();
             if (tradeId == 0){
                 
-            } else if (TradeController.unfinishedTradeIsExist(tradeId, UserController.USER.getId())){
+            } else if (TradeController.unfinishedTradeIsExist(tradeId, RestaurantController.RID)){
                 TradeController.updateStatusToDelivered(tradeId);
                 System.out.println("该订单发货成功,返回首页");
             } else {
@@ -36,7 +37,7 @@ public class TradeView {
     }
 
     private static void showFinishedTrade() {
-        List<Trade> list = TradeController.getFinishedTradeByRid(UserController.USER.getId());
+        List<Trade> list = TradeController.getFinishedTradeByRid(RestaurantController.RID);
         if (list.isEmpty()){
             System.out.println("已完成订单列表为空");
         } else {
@@ -47,8 +48,11 @@ public class TradeView {
             }
         }
     }
-
+    /**
+     * 显示商家未发货订单
+     */
     private static void showUnfinishedTrade() {
+        // 一条bug语句,原本应为通过rid查询,getUnfinishedTradeById方法内把商家id转成rid再查找
         List<Trade> list = TradeController.getUnfinishedTradeById(UserController.USER.getId());
         if (list.isEmpty()){
             System.out.println("未发货订单列表为空");

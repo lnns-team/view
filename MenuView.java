@@ -95,15 +95,15 @@ public class MenuView {
      * 商家添加新菜单
      */
     public static void addMenu() {
-        if (!TypeController.isExistByRid(UserController.USER.getId())){
+        if (!TypeController.isExistByRid(RestaurantController.RID)){
             System.out.println("你的类别为空,请先添加类别再添加菜式");
         } else {
-            TypeView.showTypeByRid(UserController.USER.getId());
+            TypeView.showTypeByRid(RestaurantController.RID);
             System.out.println("请输入需要添加的菜式类别id(输入0返回首页):");
             int typeId = Input.getInt();
             if (typeId == 0){
                 
-            } else if (TypeController.isExistByIdAndRid(typeId, UserController.USER.getId())){
+            } else if (TypeController.isExistByIdAndRid(typeId, RestaurantController.RID)){
                 System.out.println("请输入菜名:");
                 String menuName = Input.getString(20);
                 System.out.println("请输入价格:");
@@ -117,7 +117,7 @@ public class MenuView {
                 System.out.println("输入1确认插入,输入0返回首页");
                 if (Input.getInt("[0-1]") == 1){
                     if (MenuController.addMenu(new Menu(-1, menuName, menuPrice, 
-                            UserController.USER.getId(), menuMDescribe, typeId))){
+                            RestaurantController.RID, menuMDescribe, typeId))){
                         Main.success();
                     } else {
                         Main.fail();
@@ -125,7 +125,6 @@ public class MenuView {
                 } else {
                     
                 }
-                    
             } else {
                 System.out.println("输入类别id不存在");
             }
@@ -133,6 +132,7 @@ public class MenuView {
     }
     /**
      * 商家维护菜单操作
+     * 添加,修改菜单
      */
     public static void operateMenu() {
         showMenu();
@@ -142,14 +142,16 @@ public class MenuView {
             
         } else if (menuId == -1){
             addMenu();
-        } else if (MenuController.isExist(menuId, IBasicServiceImpl.rid)){
+        } else if (MenuController.isExist(menuId, RestaurantController.RID)){
             updateMenu(menuId);
         } else {
             System.out.println("输入有误,返回上一层");
         }
     }
     /**
-     * 更新菜单操作
+     * 更新菜式操作
+     * 更新菜名,更新价格,更新描述
+     * 删除菜式
      */
     public static void updateMenu(int menuId) {
         System.out.println("选择的菜式:");

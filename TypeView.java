@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lnsf.book.controller.MenuController;
+import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.TypeController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dao.impl.TypedaoImpl;
@@ -64,14 +65,14 @@ public class TypeView {
     }
 
     public static void operateType() {
-        showTypeByRid(UserController.USER.getId());
+        showTypeByRid(RestaurantController.RID);
         System.out.println("输入id修改该菜式(输入-1添加类别 输入0返回上一层 )");
         int typeId = Input.getInt();
         if (typeId == 0) {
 
         } else if (typeId == -1) {
             addType();
-        } else if (TypeController.isExistByIdAndRid(typeId, UserController.USER.getId())) {
+        } else if (TypeController.isExistByIdAndRid(typeId, RestaurantController.RID)) {
             updateType(typeId);
         } else {
             System.out.println("输入有误,返回上一层");
@@ -109,7 +110,7 @@ public class TypeView {
     private static void addType() {
         System.out.println("请输入新增类别名:");
         String typeName = Input.getString(20);
-        if (TypeController.addType(new Type(-1, typeName, UserController.USER.getId()))){
+        if (TypeController.addType(new Type(-1, typeName, RestaurantController.RID))){
             Main.success();
         } else {
             Main.fail();

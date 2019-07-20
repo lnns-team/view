@@ -47,8 +47,10 @@ public class UserView {
           Main.success();
           if (UserController.USER.getIdentify() == 1){
               
-          } else {
+          } else if (UserController.USER.getIdentify() == 2){
               RestaurantView.register();
+          } else {
+              System.err.println("身份既不是用户也不是商家错误");
           }
         } else {
           Main.fail();
