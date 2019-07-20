@@ -2,10 +2,13 @@ package com.lnsf.book.view;
 
 import java.util.List;
 
+import com.lnsf.book.controller.CarController;
+import com.lnsf.book.controller.MenuController;
 import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.TradeController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
+import com.lnsf.book.model.Car;
 import com.lnsf.book.model.Trade;
 
 public class TradeView {
@@ -93,6 +96,43 @@ public class TradeView {
         
         
         
+    }
+    /**
+     * 根据tid买单啦老板们
+     * @param tid
+     */
+    public static void checkoutPlease(int tid) {
+        Trade trade = TradeController.getTradeById(tid);
+        if (trade.getUsertele().equals("")){
+            System.out.println("电话为空,快输入你的电话号码:");
+            trade.setUsertele(Input.getString(20));
+        } 
+        if (trade.getAddress().equals("")){
+            System.out.println("地址都没填,快点输入地址:");
+            trade.setAddress(Input.getString(40));
+        }
+        System.out.println("购物车详情:");
+        CarView.showCar(trade.getId());
+        int sum = 0;
+        List<Car> list = CarController.getCarListByTid(tid);
+        for (Car c : list){
+            sum = c.getNum() * (MenuController.getMenuByMenuId(c.getMenuid())).getPrice();
+        }
+        System.out.println("商品总额:" + sum);
+        trade.setMoney(sum);
+        System.out.println("选择操作(1.确认付款 0.返回)");
+        switch (Input.getInt("0-1")){
+        case 0:
+            break;
+        case 1:
+            trade.setStatus("已付款");
+            if (TradeController.update(trade)){
+                Main.success();
+            } else {
+                Main.fail();
+            }
+            break;
+        }
     }
 
     

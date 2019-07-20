@@ -143,12 +143,15 @@ public class UserView {
         case 0:
             break;
         case 1:
+            System.out.println("请输入新用户名:");
             updateUsername();
             break;
         case 2:
+            System.out.println("请输入新姓名:");
             updateName();
             break;
         case 3:
+            System.out.println("请输入新密码:");
             updatePassword();
             break;
         }

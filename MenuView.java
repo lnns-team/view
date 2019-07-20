@@ -163,12 +163,15 @@ public class MenuView {
         case 0:
             return;
         case 1:
+            System.out.println("请输入新菜名:");
             menu.setName(Input.getString(20));
             break;
         case 2:
+            System.out.println("请输入新价格:");
             menu.setPrice(Input.getInt());
             break;
         case 3:
+            System.out.println("请输入新描述:");
             menu.setMDescribe(Input.getString(40));
             break;
         case 4:
@@ -184,6 +187,14 @@ public class MenuView {
         } else {
             Main.fail();
         }
+    }
+    /**
+     * 根据rid打印该店铺所有菜式
+     * @param rid
+     */
+    public static void showAllMenuByRid(int rid) {
+        List<Menu> list = MenuController.getMenuListByRid(rid);
+        showMenu(list);
     }
     
     
