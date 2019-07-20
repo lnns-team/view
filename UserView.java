@@ -46,14 +46,15 @@ public class UserView {
         if (UserController.registerUser(UserController.USER)){
           Main.success();
           if (UserController.USER.getIdentify() == 1){
-        	  FgMain.userMainView();
+              
           } else {
-        	  BgMain.businessMainView();
+              RestaurantView.register();
           }
         } else {
           Main.fail();
           System.err.println("注册失败,可能是用户名重复,请重新输入用户名");
         }
+        UserController.USER = new User(-1, "", -1, "", "");// 注册完全局用户置空,回跳回登录
     }
     /**
      * 用户登录成功页面
