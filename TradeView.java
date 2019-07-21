@@ -1,5 +1,6 @@
 package com.lnsf.book.view;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.List;
 
 import com.lnsf.book.controller.AppraiseController;
@@ -75,16 +76,28 @@ public class TradeView {
     }
 
     private static void showFinishedTrade() {
-        List<Trade> list = TradeController
-                .getFinishedTradeByRid(RestaurantController.RID);
+        List<Trade> list = TradeController.getTradeListByRidAndNotInStatus(RestaurantController.getRidByUserId(
+                UserController.USER.getId()));
         if (list.isEmpty()) {
             System.out.println("已完成订单列表为空");
         } else {
             for (Trade t : list) {
-                System.out.println("订单id:" + t.getId() + " 订单金额:"
+                System.out.println("订单id:" + t.getId() + " 订单状态:" + t.getStatus() + " 订单金额:"
                         + t.getMoney() + " 收货人:"
                         + TradeController.getUsernameByUserId(t.getUserid())
                         + " 收获地址" + t.getAddress());
+            }
+            System.out.println("输入订单id查看订单详情(0.返回)");
+            int tradeId = Input.getInt("([0-9])|([1-9][0-9]+)");
+            if (tradeId == 0){
+                return;
+            } else if (TradeController.isExistByUseridAndTidAndNotInStatus(
+                    UserController.USER.getId(), tradeId, "未付款")){
+                System.out.println("选择的订单:");
+                showTradeInfo(TradeController.getTradeById(tradeId));
+                showTradeItemByTid(tradeId);
+            } else {
+                System.out.println("输入订单有误");
             }
         }
     }
@@ -93,9 +106,8 @@ public class TradeView {
      * 显示商家未发货订单
      */
     private static void showUnfinishedTrade() {
-        // 一条bug语句,原本应为通过rid查询,getUnfinishedTradeById方法内把商家id转成rid再查找
         List<Trade> list = TradeController
-                .getUnfinishedTradeById(UserController.USER.getId());
+                .getUnfinishedTradeById(RestaurantController.getRidByUserId(UserController.USER.getId()));
         if (list.isEmpty()) {
             System.out.println("未发货订单列表为空");
         } else {
@@ -203,11 +215,11 @@ public class TradeView {
                 
             } else if (trade.getStatus().equals("已评价")) {
                 
-                System.out.println("整个订单到这里结束了,终于不用写这里的代码了");
+                System.out.println("评价完成了就没有操作了");
                 
             } else if (trade.getStatus().equals("已退款")) {
 
-                System.out.println("整个订单到这里结束了,这里的代码也不用写了");
+                System.out.println("退款完成了就没有操作了");
                 
             } else {
                 System.out.println("神奇的订单状态,不信你看一下数据库");
