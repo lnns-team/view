@@ -77,7 +77,7 @@ public class TradeView {
 
     private static void showFinishedTrade() {
         List<Trade> list = TradeController.getTradeListByRidAndNotInStatus(RestaurantController.getRidByUserId(
-                UserController.USER.getId()));
+                UserController.USER.getId()), "未付款");
         if (list.isEmpty()) {
             System.out.println("已完成订单列表为空");
         } else {
