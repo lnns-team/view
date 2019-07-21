@@ -19,7 +19,7 @@ public class CarView {
             System.out.println("当前购物车为空");
         } else {
             for (Car c : list) {
-                System.out.println(c.getId()
+                System.out.println("/t" + c.getId()
                         + "."
                         + (MenuController.getMenuByMenuId(c.getMenuid()))
                                 .getName() + " 数量:" + c.getNum());

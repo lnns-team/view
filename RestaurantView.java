@@ -51,27 +51,30 @@ public class RestaurantView {
         if (rid == 0){
             System.out.println("输入为0");
         } else if (RestaurantController.isExist(rid)){
-            System.out.println("进入了这一层q");
-            if (!TradeController.isExistByUserIdAndRidAndStatus(
-                    UserController.USER.getId(), rid, "未付款")){
-                System.out.println("无购物车,创建购物车");
-                TradeController.init(new Trade(-1, UserController.USER.getId(), 
-                        "", rid, "未付款", "", -1));
-                System.out.println("创建购物车成功");
-            } 
-            List<Trade> list = TradeController.getTradeListIdByUseridAndRidAndStatus(UserController.USER.getId(), 
-                    rid, "未付款");// 根据用户id和店家id和状态返回一个List<Trade>
-            if (list.isEmpty()){
-                System.err.println("购物车竟然为空???怎么肥事?");
-            }
-            Trade trade = list.get(0);
-            orderMenu(rid, trade.getId());
+            orderMenu(rid);
         } else {
             System.out.println("没有这个餐厅噢");
         }
     }
-
-    private static void orderMenu(int rid, int tid) {
+    /**
+     * 用户根据店铺id来点餐啦
+     * @param rid
+     */
+    public static void orderMenu(int rid) {
+        if (!TradeController.isExistByUserIdAndRidAndStatus(
+                UserController.USER.getId(), rid, "未付款")){
+            System.out.println("无购物车,创建购物车");
+            TradeController.init(new Trade(-1, UserController.USER.getId(), 
+                    "", rid, "未付款", "", -1));
+            System.out.println("创建购物车成功");
+        } 
+        List<Trade> list = TradeController.getTradeListIdByUseridAndRidAndStatus(UserController.USER.getId(), 
+                rid, "未付款");// 根据用户id和店家id和状态返回一个List<Trade>
+        if (list.isEmpty()){
+            System.err.println("购物车竟然为空???怎么肥事?");
+        }
+        Trade trade = list.get(0);
+        int tid = trade.getId();
         while (true){
             if ((TradeController.getTradeById(tid)).getStatus().equals("已付款")){
                 return;
@@ -99,7 +102,11 @@ public class RestaurantView {
             } else if (CarController.isExist(tid, mid)){
                 CarView.updateCarByTidAndMid(tid, mid);
             } else if (mid == -2){
-                TradeView.checkoutPlease(tid);
+                if (CarController.getCarListByTid(tid).isEmpty()){
+                    System.out.println("东西都没有还想买单?");
+                } else {
+                    TradeView.checkoutPlease(tid);
+                }
             } else {
                 System.out.println("条目应该不存在吧?仔细检查看看");
                 Main.again();

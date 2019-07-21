@@ -20,7 +20,7 @@ public class BgMain {
             System.out.println("\t 4.查看个人信息\n");
             System.out.println("\t 0.退出登录");
             System.out.println("***************************");
-            System.out.print("请输入:");
+            System.out.println("请输入:");
             int choice = Input.getInt();
             switch (choice) {
             case 0:

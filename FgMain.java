@@ -15,7 +15,7 @@ public class FgMain {
             System.out.println("***************************\n");
             System.out.println("\t 1.选择餐厅\n");
             System.out.println("\t 2.我的购物车\n");
-            System.out.println("\t 3.我的订单\n");
+            System.out.println("\t 3.我的历史订单\n");
             System.out.println("\t 4.查看个人信息\n");
             System.out.println("\t 0.退出登录");
             System.out.println("***************************");
