@@ -40,7 +40,7 @@ public class RestaurantView {
     }
     /**
      * 用户选择餐厅操作
-     * 
+     * 测试
      */
     public static void operateRestaurant() {
         showAllRestaurant();
