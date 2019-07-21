@@ -9,6 +9,7 @@ import com.lnsf.book.controller.TradeController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
 import com.lnsf.book.model.Car;
+import com.lnsf.book.model.Menu;
 import com.lnsf.book.model.Restaurant;
 import com.lnsf.book.model.Trade;
 
@@ -86,6 +87,10 @@ public class RestaurantView {
                 System.out.println("输入对应id添加:");
                 int addmid = Input.getInt();
                 if (MenuController.isExist(addmid, rid)){
+                    System.out.println("选择的菜式:");
+                    Menu addMenu = MenuController.getMenuByMenuId(addmid);
+                    System.out.println(addMenu.getId() + "." + addMenu.getName());
+                    System.out.println("请选择添加数量:");
                     addItemToCar(tid, addmid, Input.getInt("([0-9])|([1-9][0-9]+)"));
                     System.out.println("添加成功");
                 } else {
