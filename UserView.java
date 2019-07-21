@@ -14,9 +14,9 @@ public class UserView {
      */
     public static void login(){
         System.out.println("请输入用户名:");
-        String username = Input.getString();
+        String username = Input.getString(20);
         System.out.println("请输入密码:");
-        String password = Input.getString();
+        String password = Input.getString(20);
         switch (UserController.login(username, password)){
         case 0:
             Main.loginFail();
@@ -37,8 +37,11 @@ public class UserView {
      * 注册页面
      */
     public static void register(){
-        System.out.println("请输入需要注册的用户类型(1.普通用户 2.商家用户):");
-        UserController.USER.setIdentify(Input.getInt("[1-2]"));
+        System.out.println("请输入需要注册的用户类型(1.普通用户 2.商家用户 0.返回):");
+        int input = Input.getInt("[0-2]");
+        if (input == 0)
+            return;
+        UserController.USER.setIdentify(input);
         System.out.println("请输入姓名");
         UserController.USER.setName(Input.getString(20));
         System.out.println("请输入用户名:");

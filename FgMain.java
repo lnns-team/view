@@ -1,6 +1,7 @@
 package com.lnsf.book.view;
 
 import com.lnsf.book.controller.MenuController;
+import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
 import com.lnsf.book.model.User;
@@ -23,6 +24,7 @@ public class FgMain {
             switch (Input.getInt("[0-4]")) {
             case 0:
                 UserController.USER = new User(-1, "", -1, "", "");
+                RestaurantController.RID = -1;
                 System.out.println("------------------");
                 System.out.println("您已经退出登录!");
                 System.out.println("------------------");

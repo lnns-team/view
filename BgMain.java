@@ -18,13 +18,15 @@ public class BgMain {
             System.out.println("\t 2.查看菜单\n");
             System.out.println("\t 3.查看类别\n");
             System.out.println("\t 4.查看个人信息\n");
+            System.out.println("\t 5.查看店铺信息\n");
             System.out.println("\t 0.退出登录");
             System.out.println("***************************");
             System.out.println("请输入:");
-            int choice = Input.getInt();
+            int choice = Input.getInt("[0-5]");
             switch (choice) {
             case 0:
                 UserController.USER = new User(-1, "", -1, "", "");
+                RestaurantController.RID = -1;
                 System.out.println("------------------");
                 System.out.println("您已经退出登录!");
                 System.out.println("------------------");
@@ -40,6 +42,9 @@ public class BgMain {
                 break;
             case 4:
                 UserView.updateUserInfo();
+                break;
+            case 5:
+                RestaurantView.updateRestaurantInfo();
                 break;
             default:
                 System.err.println("无此操作");

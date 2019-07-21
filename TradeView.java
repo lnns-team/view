@@ -269,27 +269,40 @@ public class TradeView {
         int sum = 0;
         List<Car> list = CarController.getCarListByTid(tid);
         for (Car c : list) {
-            sum = c.getNum()
-                    * (MenuController.getMenuByMenuId(c.getMenuid()))
+            sum += c.getNum()
+                    * MenuController.getMenuByMenuId(c.getMenuid())
                             .getPrice();
         }
         System.out.println("商品总额:" + sum + "元");
-        trade.setMoney(sum);
         System.out.println("选择操作(1.确认付款 0.返回)");
         switch (Input.getInt("[0-1]")) {
         case 0:
             if (TradeController.update(trade)) {
-                Main.success();
+                System.out.println("更新订单电话地址信息成功");
             } else {
-                Main.fail();
+                System.out.println("更新订单电话地址信息失败");
             }
             break;
         case 1:
+            trade.setMoney(sum);
             trade.setStatus("已付款");
+            for (Car c : list){
+                Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
+                if (menu.getStock() < c.getNum()){
+                    System.out.println("商品:" + menu.getId() + "." + menu.getName() + " 的库存少于下单数量" + c.getNum() + ",下单失败");
+                    return;
+                }
+            }
             if (TradeController.update(trade)) {
-                Main.success();
+                System.out.println("订单状况修改成功");
+                for (Car c : list){
+                    Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
+                    menu.setStock(menu.getStock() - c.getNum());
+                    MenuController.updateMenu(menu);
+                }
+                System.out.println("商家库存更新成功");
             } else {
-                Main.fail();
+                System.out.println("订单状况修改失败");
             }
             break;
         }

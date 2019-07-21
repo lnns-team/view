@@ -19,6 +19,7 @@ public class MenuView {
      */
     public static void showMenu(){
         List<Menu> list = new ArrayList<Menu>();
+//       貌似没有普通用户调用这个方法
         if (UserController.USER.getIdentify() == 1) {
             TypeView.inputTypeId();
             int typeId = Input.getInt();
@@ -46,7 +47,21 @@ public class MenuView {
             System.out.println("菜单为空");
         } else {
             for (Menu m : list) {
-                System.out.println(m.getId() + "." + m.getName() + " 价格:" + m.getPrice() + 
+                System.out.println(m.getId() + "." + m.getName() + " 价格:" + m.getPrice() + " 库存:" + m.getStock() + 
+                        " 类型:" + TypeController.getTypeNameById(m.getType()) + " 描述:" + m.getMDescribe() + 
+                        " 店铺名:" + RestaurantController.getNameByRid(m.getRid()) );
+            }
+        }
+    }
+    
+    public static void showMenuAndHideStockIs0(List<Menu> list) {
+        if (list.isEmpty()) {
+            System.out.println("菜单为空");
+        } else {
+            for (Menu m : list) {
+                if (m.getStock() == 0)
+                    continue;
+                System.out.println(m.getId() + "." + m.getName() + " 价格:" + m.getPrice() + " 库存:" + m.getStock() + 
                         " 类型:" + TypeController.getTypeNameById(m.getType()) + " 描述:" + m.getMDescribe() + 
                         " 店铺名:" + RestaurantController.getNameByRid(m.getRid()) );
             }
@@ -107,17 +122,20 @@ public class MenuView {
                 System.out.println("请输入菜名:");
                 String menuName = Input.getString(20);
                 System.out.println("请输入价格:");
-                int menuPrice = Input.getInt();
+                int menuPrice = Input.getInt("([0-9])|([1-9][0-9]+)");
+                System.out.println("请输入库存");
+                int menuStock = Input.getInt("([0-9])|([1-9][0-9]+)");
                 System.out.println("请输入商品描述:");
                 String menuMDescribe = Input.getString(40);
                 System.out.println("插入的菜式信息:");
                 System.out.println("菜名:" + menuName);
                 System.out.println("价格:" + menuPrice);
+                System.out.println("库存:" + menuStock);
                 System.out.println("类型:" + TypeController.getTypeNameById(typeId));
                 System.out.println("输入1确认插入,输入0返回首页");
                 if (Input.getInt("[0-1]") == 1){
                     if (MenuController.addMenu(new Menu(-1, menuName, menuPrice, 
-                            RestaurantController.RID, menuMDescribe, typeId))){
+                            RestaurantController.RID, menuMDescribe, typeId, menuStock))){
                         Main.success();
                     } else {
                         Main.fail();
@@ -137,7 +155,7 @@ public class MenuView {
     public static void operateMenu() {
         showMenu();
         System.out.println("输入id修改该菜式(输入-1添加菜式 输入0返回上一层 )");
-        int menuId = Input.getInt();
+        int menuId = Input.getInt("([0-9])|([1-9][0-9]+)|-1");
         if (menuId == 0){
             
         } else if (menuId == -1){
@@ -157,9 +175,10 @@ public class MenuView {
         System.out.println("选择的菜式:");
         Menu menu = MenuController.getMenuByMenuId(menuId);
         System.out.println("菜式id" + menu.getId() + " 菜名:" + menu.getName() + " 价格:" + menu.getPrice() + 
+                " 库存" + menu.getStock() + 
                 " 类型:" + menu.getType() + " 描述:" + menu.getMDescribe());
-        System.out.println("请选择操作(1.修改菜名 2.修改价格 3.修改描述 4.删除菜式 0.返回主页");
-        switch (Input.getInt("[0-4]")){
+        System.out.println("请选择操作(1.修改菜名 2.修改价格 3.修改库存 4.修改描述 5.删除菜式 0.返回主页");
+        switch (Input.getInt("[0-5]")){
         case 0:
             return;
         case 1:
@@ -168,13 +187,16 @@ public class MenuView {
             break;
         case 2:
             System.out.println("请输入新价格:");
-            menu.setPrice(Input.getInt());
+            menu.setPrice(Input.getInt("([0-9])|([1-9][0-9]+)"));
             break;
         case 3:
+            System.out.println("请输入新库存");
+            menu.setStock(Input.getInt("([0-9])|([1-9][0-9]+)"));
+        case 4:
             System.out.println("请输入新描述:");
             menu.setMDescribe(Input.getString(40));
             break;
-        case 4:
+        case 5:
             if (MenuController.delMenuById(menu.getId())){
                 Main.success();
             } else {
@@ -194,7 +216,7 @@ public class MenuView {
      */
     public static void showAllMenuByRid(int rid) {
         List<Menu> list = MenuController.getMenuListByRid(rid);
-        showMenu(list);
+        showMenuAndHideStockIs0(list);
     }
     
     
