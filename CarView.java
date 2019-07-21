@@ -6,11 +6,11 @@ import com.lnsf.book.controller.CarController;
 import com.lnsf.book.controller.MenuController;
 import com.lnsf.book.dbutils.Input;
 import com.lnsf.book.model.Car;
+import com.lnsf.book.model.Menu;
 
 public class CarView {
     /**
-     * 根据订单tid打印购物车详情 购物车id.菜单名 数量
-     * 
+     * 根据订单tid打印购物车详情 购物车id.菜单名 单价 数量
      * @param tid
      */
     public static void showCar(int tid) {
@@ -19,10 +19,11 @@ public class CarView {
             System.out.println("当前购物车为空");
         } else {
             for (Car c : list) {
-                System.out.println("/t" + c.getId()
+                Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
+                System.out.println("\t" + c.getId()
                         + "."
-                        + (MenuController.getMenuByMenuId(c.getMenuid()))
-                                .getName() + " 数量:" + c.getNum());
+                        + menu.getId() + " 菜名:" + menu.getName() + " 单价:" + menu.getPrice() + 
+                        " 数量:" + c.getNum());
             }
 
         }

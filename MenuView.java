@@ -37,7 +37,7 @@ public class MenuView {
         }
     }
     /**
-     * 根据传过来的List参数输出该菜单
+     * 根据传过来的List参数输出该菜单所有属性
      * 
      * @param list
      */
