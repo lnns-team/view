@@ -135,6 +135,10 @@ public class TradeView {
         }
     }
 
+    public static void myShoppingCart() {
+        
+    }
+
     
     
     

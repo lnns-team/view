@@ -85,10 +85,11 @@ public class RestaurantView {
                 MenuView.showAllMenuByRid(rid);
                 System.out.println("输入对应id添加:");
                 int addmid = Input.getInt();
-                if (!MenuController.isExist(addmid, rid)){
-                    System.out.println("菜式不存在");
-                } else {
+                if (MenuController.isExist(addmid, rid)){
                     addItemToCar(tid, addmid, Input.getInt("([0-9])|([1-9][0-9]+)"));
+                    System.out.println("添加成功");
+                } else {
+                    System.out.println("菜式不存在");
                 }
             } else if (CarController.isExist(tid, mid)){
                 CarView.updateCarByTidAndMid(tid, mid);

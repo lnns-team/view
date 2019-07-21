@@ -31,7 +31,7 @@ public class FgMain {
                 RestaurantView.operateRestaurant();
                 break;
             case 2:
-//                TradeView.showShoppingCart();
+                TradeView.myShoppingCart();
                 break;
             case 3:
                 TradeView.showUserTrade();
