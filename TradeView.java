@@ -2,6 +2,7 @@ package com.lnsf.book.view;
 
 import java.util.List;
 
+import com.lnsf.book.controller.AppraiseController;
 import com.lnsf.book.controller.CarController;
 import com.lnsf.book.controller.MenuController;
 import com.lnsf.book.controller.RestaurantController;
@@ -108,63 +109,132 @@ public class TradeView {
     }
 
     public static void showUserTrade() {
-        List<Trade> tradeList = TradeController.getTradeListByUseridAndNotInStatus(UserController.USER.getId(), "未付款");
-        if (tradeList.isEmpty()){
+        List<Trade> tradeList = TradeController
+                .getTradeListByUseridAndNotInStatus(
+                        UserController.USER.getId(), "未付款");
+        if (tradeList.isEmpty()) {
             System.out.println("你还没有付款下单的订单噢!");
         } else {
-            for (Trade trade : tradeList){
-                System.out.println("订单id:" + trade.getId() + 
-                        " 店铺名:" + RestaurantController.getNameByRid(trade.getRid()) + 
-                        " 订单状况:" + trade.getStatus() );
-                CarView.showCar(trade.getId());
-            }
-            System.out.println("输入订单id进一步操作(0.返回上一层):");
-            int tid = Input.getInt("([0-9])|([1-9][0-9]+)");
-            if (tid == 0){
-                return;
-            } else if (TradeController.isExistByUseridAndTidAndNotInStatus(
-                    UserController.USER.getId(), tid, "未付款")){
-                Trade trade = TradeController.getTradeById(tid);
-                if (trade.getStatus().equals("已付款")){
-                    System.out.println("选择的订单:");
-                    TradeView.showTradeInfo(trade);
-                    CarView.showCar(trade.getId());
-                    System.out.println("请选择操作(1.退款 0.返回):");
-                    switch (Input.getInt("[0-1]")){
-                    case 0:
-                        break;
-                    case 1:
-                        trade.setStatus("已退款");
-                        if (TradeController.update(trade)){
-                            System.out.println("退款成功吧.");
-                        } else {
-                            System.out.println("可能你样衰,退款失败了");
-                        }
-                        break;
-                    }
-                } else if (trade.getStatus().equals("已发货")){
-                    System.out.println("坐等吃饭吧,看多两眼外卖也没这么快到的.");
-                } else if (trade.getStatus().equals("已完成")){
-                    
-                } else if (trade.getStatus().equals("已评价")){
-                    
-                }  else if (trade.getStatus().equals("已退款")){
-                    
-                } else {
-                    System.out.println("神奇的订单状态,不信你看一下数据库");
-                }
-            } else {
-                System.out.println("输入的订单id不存在,返回上一层");
-            }
+            tradeManagement(tradeList);
         }
     }
+
+    private static void tradeManagement(List<Trade> tradeList) {
+        for (Trade trade : tradeList) {
+            System.out.println("订单id:" + trade.getId() + " 店铺名:"
+                    + RestaurantController.getNameByRid(trade.getRid())
+                    + " 订单状况:" + trade.getStatus());
+        }
+        System.out.println("输入订单id进一步操作(0.返回上一层):");
+        int tid = Input.getInt("([0-9])|([1-9][0-9]+)");
+        if (tid == 0) {
+            return;
+        } else if (TradeController.isExistByUseridAndTidAndNotInStatus(
+                UserController.USER.getId(), tid, "未付款")) {
+            Trade trade = TradeController.getTradeById(tid);
+            if (trade.getStatus().equals("已付款")) {
+                
+                System.out.println("选择的订单:");
+                TradeView.showTradeInfo(trade);
+                CarView.showCar(trade.getId());
+                System.out.println("请选择操作(1.退款 0.返回):");
+                switch (Input.getInt("[0-1]")) {
+                case 0:
+                    break;
+                case 1:
+                    changeTradeStatusToWhat(trade, "已退款");
+                    break;
+                }
+                
+            } else if (trade.getStatus().equals("已发货")) {
+                
+                System.out.println("选择的订单:");
+                TradeView.showTradeInfo(trade);
+                CarView.showCar(trade.getId());
+                System.out.println("请选择操作(1.确认收货 0.返回):");
+                switch (Input.getInt("[0-1]")) {
+                case 0:
+                    break;
+                case 1:
+                    changeTradeStatusToWhat(trade, "已完成");
+                    break;
+                }
+                
+            } else if (trade.getStatus().equals("已完成")) {
+                
+                System.out.println("该订单已完成,来评价一波?");
+                System.out.println("选择的订单:");
+                TradeView.showTradeInfo(trade);
+                CarView.showCar(trade.getId());
+                System.out.println("请选择操作(1.评价该店铺 0.返回):");
+                switch (Input.getInt("[0-1]")) {
+                case 0:
+                    break;
+                case 1:
+                    if (AppraiseController.isExist(UserController.USER.getId(), trade.getRid())){
+                        System.out.println("你曾经评价过这家店铺,你之前的评价是这样的:");
+                        AppraiseController.getAboutByUidAndRid(UserController.USER.getId(), trade.getRid());
+                        System.out.println("请选择操作:1.修改评价 0.返回");
+                        switch (Input.getInt("[0-1]")){
+                        case 0:
+                            break;
+                        case 1:
+                            System.out.println("输入新的评价:");
+                            if (AppraiseController.updateAbout(UserController.USER.getId(), 
+                                    trade.getRid(), Input.getString(40))){
+                                System.out.println("修改评价成功");
+                                changeTradeStatusToWhat(trade, "已评价");
+                            } else {
+                                System.out.println("修改评价失败");
+                            }
+                        }
+                    } else {
+                        System.out.println("你是第一次评价这家店铺,请输入你的评价:");
+                        if (AppraiseController.insertAbout(UserController.USER.getId(), 
+                                trade.getRid(), Input.getString(40))){
+                            System.out.println("添加评价成功");
+                            changeTradeStatusToWhat(trade, "已评价");
+                        } else {
+                            System.out.println("添加评价失败");
+                        }
+                    }
+                    break;
+                }
+                
+            } else if (trade.getStatus().equals("已评价")) {
+                
+                System.out.println("整个订单到这里结束了,终于不用写这里的代码了");
+                
+            } else if (trade.getStatus().equals("已退款")) {
+
+                System.out.println("整个订单到这里结束了,这里的代码也不用写了");
+                
+            } else {
+                System.out.println("神奇的订单状态,不信你看一下数据库");
+            }
+        } else {
+            System.out.println("输入的订单id不存在,返回上一层");
+        }
+    }
+
+    private static void changeTradeStatusToWhat(Trade trade, String what) {
+        trade.setStatus(what);
+        if (TradeController.update(trade)) {
+            System.out.println("已更新订单信息");
+        } else {
+            System.out.println("更新订单信息失败");
+        }
+    }
+
     /**
      * 显示订单id,店铺名,订单状态,订单金额
+     * 
      * @param trade
      */
     private static void showTradeInfo(Trade trade) {
-        System.out.println("订单id:" + trade.getId() + " 店铺名:" + RestaurantController.getNameByRid(trade.getRid()) + 
-                " 订单状态:" + trade.getStatus() + " 订单金额:" + trade.getMoney());
+        System.out.println("订单id:" + trade.getId() + " 店铺名:"
+                + RestaurantController.getNameByRid(trade.getRid()) + " 订单状态:"
+                + trade.getStatus() + " 订单金额:" + trade.getMoney());
     }
 
     /**
@@ -217,46 +287,36 @@ public class TradeView {
         System.out.println("我的购物车:");
         List<Trade> tradeList = TradeController.getTradeListByUseridAndStatus(
                 UserController.USER.getId(), "未付款");
-        if (tradeList.isEmpty()){
+        if (tradeList.isEmpty()) {
             System.out.println("当前购物车订单为空,快去买东西吧");
         } else {
             boolean flag = false;
-            for (Trade trade : tradeList){
-                if (CarController.isExistByTid(trade.getId())){
-                System.out.println("订单id:" + trade.getId() + 
-                        " 店铺名:" + RestaurantController.getNameByRid(trade.getRid()) + 
-                        " 订单状况:" + trade.getStatus() );
-                CarView.showCar(trade.getId());
-                flag = true;
+            for (Trade trade : tradeList) {
+                if (CarController.isExistByTid(trade.getId())) {
+                    System.out.println("订单id:" + trade.getId() + " 店铺名:"
+                            + RestaurantController.getNameByRid(trade.getRid())
+                            + " 订单状况:" + trade.getStatus());
+                    CarView.showCar(trade.getId());
+                    flag = true;
                 } else {
-                    
+
                 }
             }
-            if (flag == false){
+            if (flag == false) {
                 System.out.println("你的购物车还是空的,快去点菜吧");
                 return;
             }
             System.out.println("选择订单id继续操作(0.返回上一层):");
             int tid = Input.getInt("([0-9])|([1-9][0-9]+)");
-            if (tid == 0){
-                
-            } else if (TradeController.isExist(tid)){
-                RestaurantView.orderMenu(TradeController.getTradeById(tid).getRid());
+            if (tid == 0) {
+
+            } else if (TradeController.isExist(tid)) {
+                RestaurantView.orderMenu(TradeController.getTradeById(tid)
+                        .getRid());
             } else {
                 System.out.println("输入有误,没有这个订单");
             }
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
