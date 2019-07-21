@@ -123,6 +123,11 @@ public class TradeView {
         System.out.println("选择操作(1.确认付款 0.返回)");
         switch (Input.getInt("[0-1]")){
         case 0:
+            if (TradeController.update(trade)){
+                Main.success();
+            } else {
+                Main.fail();
+            }
             break;
         case 1:
             trade.setStatus("已付款");
