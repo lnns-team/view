@@ -47,7 +47,7 @@ public class RestaurantView {
         System.out.println("请输入序号选择餐厅(输入0返回)");
         int rid = Input.getInt();
         if (rid == 0){
-            
+            System.out.println("输入为0");
         } else if (RestaurantController.isExist(rid)){
             System.out.println("进入了这一层q");
             if (!TradeController.isExistByUserIdAndRidAndStatus(
