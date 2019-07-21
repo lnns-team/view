@@ -34,7 +34,7 @@ public class RestaurantView {
         } else {
             for (Restaurant r : list){
                 System.out.println(r.getId() + "." + r.getName() + " 店主:" + 
-            r.getUserid() + " 店铺地址:" + r.getAddress());
+            UserController.getUsernameByUserId(r.getUserid()) + " 店铺地址:" + r.getAddress());
             }
         }
     }
@@ -49,6 +49,7 @@ public class RestaurantView {
         if (rid == 0){
             
         } else if (RestaurantController.isExist(rid)){
+            System.out.println("进入了这一层q");
             if (!TradeController.isExistByUserIdAndRidAndStatus(
                     UserController.USER.getId(), rid, "未付款")){
                 System.out.println("无购物车,创建购物车");
