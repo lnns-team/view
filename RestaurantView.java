@@ -78,7 +78,7 @@ public class RestaurantView {
             }
             System.out.println("当前的购物车:");
             CarView.showCar(tid);
-            System.out.println("请选择相应购物车商品执行操作(0.退出 -1.添加商品 -2.老板我要买单!):");
+            System.out.println("请选择相应购物车商品id执行操作(0.退出 -1.添加商品 -2.老板我要买单!):");
             int mid = Input.getInt();
             if (mid == 0){
                 return;

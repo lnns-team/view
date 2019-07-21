@@ -41,6 +41,7 @@ public class CarView {
         case 0:
             break;
         case 1:
+            System.out.println("请输入修改数量:");
             car.setNum(Input.getInt("([0-9])|([1-9][0-9]+)"));
             if (CarController.updateCar(car)) {
                 Main.success();

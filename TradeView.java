@@ -118,10 +118,10 @@ public class TradeView {
         for (Car c : list){
             sum = c.getNum() * (MenuController.getMenuByMenuId(c.getMenuid())).getPrice();
         }
-        System.out.println("商品总额:" + sum);
+        System.out.println("商品总额:" + sum + "元");
         trade.setMoney(sum);
         System.out.println("选择操作(1.确认付款 0.返回)");
-        switch (Input.getInt("0-1")){
+        switch (Input.getInt("[0-1]")){
         case 0:
             break;
         case 1:
