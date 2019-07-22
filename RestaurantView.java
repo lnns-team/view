@@ -34,7 +34,9 @@ public class RestaurantView {
     public static void showAllRestaurant() {
         List<Restaurant> list = RestaurantController.getAllRestaurantList();
         if (list.isEmpty()) {
-            System.out.println("Ohhhhhh倒霉了居然没餐厅");
+            System.out.println("-------------------------");
+            System.out.println("|\tOhhhhhh倒霉了居然没餐厅\t|");
+            System.out.println("-------------------------");
         } else {
             for (Restaurant r : list) {
                 System.out.println(r.getId() + "." + r.getName() + " 店主:"
@@ -49,7 +51,7 @@ public class RestaurantView {
      */
     public static void operateRestaurant() {
         showAllRestaurant();
-        System.out.println("请输入序号选择餐厅(输入0返回)");
+        System.out.println("<--\t请输入序号选择餐厅(输入0返回)\t-->");
         int rid = Input.getInt("([0-9])|([1-9][0-9]+)");
         if (rid == 0) {
 

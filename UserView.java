@@ -13,9 +13,9 @@ public class UserView {
      * 登录页面
      */
     public static void login(){
-        System.out.println("请输入用户名:");
+        System.out.println("<--\t请输入用户名:\t-->");
         String username = Input.getString(20);
-        System.out.println("请输入密码:");
+        System.out.println("<--\t请输入密码:\t-->");
         String password = Input.getString(20);
         switch (UserController.login(username, password)){
         case 0:
@@ -37,16 +37,16 @@ public class UserView {
      * 注册页面
      */
     public static void register(){
-        System.out.println("请输入需要注册的用户类型(1.普通用户 2.商家用户 0.返回):");
+        System.out.println("<--\t请输入需要注册的用户类型(1.普通用户 2.商家用户 0.返回):--\t>");
         int input = Input.getInt("[0-2]");
         if (input == 0)
             return;
         UserController.USER.setIdentify(input);
-        System.out.println("请输入姓名");
+        System.out.println("<--\t请输入姓名:\t-->");
         UserController.USER.setName(Input.getString(20));
-        System.out.println("请输入用户名:");
+        System.out.println("<--\t请输入用户名:\t-->");
         UserController.USER.setUsername(Input.getString(20));
-        System.out.println("请输入密码:");
+        System.out.println("<--\t请输入密码:\t-->");
         UserController.USER.setPassword(Input.getString(20));
         if (UserController.registerUser(UserController.USER)){
           Main.success();
@@ -57,11 +57,11 @@ public class UserView {
                       UserController.getUserIdByUsername(UserController.USER.getUsername()));
               RestaurantView.register();
           } else {
-              System.err.println("身份既不是用户也不是商家错误");
+              System.err.println("<--\t身份既不是用户也不是商家错误\t-->");
           }
         } else {
           Main.fail();
-          System.err.println("注册失败,可能是用户名重复,请重新输入用户名");
+          System.err.println("<--\t注册失败,可能是用户名重复,请重新输入用户名\t-->");
         }
         UserController.USER = new User(-1, "", -1, "", "");// 注册完全局用户置空,回跳回登录
     }
