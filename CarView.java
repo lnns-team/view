@@ -21,7 +21,7 @@ public class CarView {
         } else {
             for (Car c : list) {
                 Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
-                System.out.println("\t" + "购物车id:" + c.getId() + " 商品id:" + menu.getId()
+                System.out.println("\t" + " 商品id:" + menu.getId()
                         + " 菜名:" + menu.getName() + " 单价:" + menu.getPrice()
                         + " 数量:" + c.getNum());
             }
