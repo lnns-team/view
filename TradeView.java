@@ -298,6 +298,7 @@ public class TradeView {
                 for (Car c : list){
                     Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
                     menu.setStock(menu.getStock() - c.getNum());
+                    System.out.println("当前" + menu.getName() + "set的库存为:" + menu.getStock());
                     MenuController.updateMenu(menu);
                 }
                 System.out.println("商家库存更新成功");

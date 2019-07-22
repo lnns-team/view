@@ -88,7 +88,7 @@ public class RestaurantView {
             System.out.println("当前的购物车:");
             CarView.showCar(tid);
             System.out
-                    .println("请选择相应购物车商品id执行操作(0.退出 -1.添加商品 -2.老板我要买单! -3.查看该店铺的评价):");
+                    .println("请选择相应购物车商品id执行操作(0.退出 -1.添加商品 -2.老板我要买单! -3.查看该店铺的信息及评价):");
             int mid = Input.getInt("([0-9])|([1-9][0-9]+)|(-[1-2])");
             if (mid == 0) {
                 return;
@@ -133,9 +133,9 @@ public class RestaurantView {
                 showRestaurantAppraise(rid);
 
             } else {
+                System.out.println("条目应该不存在吧?仔细检查看看");
+                Main.again();
             }
-            System.out.println("条目应该不存在吧?仔细检查看看");
-            Main.again();
         }
     }
 
