@@ -36,7 +36,7 @@ public class TradeView {
                     RestaurantController.RID)) {
                 System.out.println("Order information:");
                 showTradeItemByTid(tradeId);
-                System.out.println(">Please enter the options:(1.Update to delivery 0.Back");
+                System.out.println(">Please enter the options:(1.Update to delivery 0.Back)");
                 switch (Input.getInt("[0-1]")) {
                 case 0:
                     return;
