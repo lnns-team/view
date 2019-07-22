@@ -22,12 +22,12 @@ public class TypeView {
         List<Type> list = new ArrayList<Type>();
         //list = TypeController.
         if (list.isEmpty()){
-            System.out.println("类别表为空");
+            System.out.println("Type is empty.");
         } else {
             for (Type t : list){
                 System.out.println(t.getId() + "./t" + t.getName());
             }
-            System.out.print("请选择类别:");
+            System.out.print(">Please enter a type id:");
         }
         
     }
@@ -41,7 +41,7 @@ public class TypeView {
         List<Type> list = new ArrayList<>();
         list = TypeController.getTypeListByRid(rid);
         if (list.isEmpty()) {
-            System.out.println("类别为空");
+            System.out.println("Type is empty.");
         } else {
             showTypeList(list);
         }
@@ -57,17 +57,17 @@ public class TypeView {
      * 输入类别id提示
      */
     public static void inputTypeId() {
-        System.out.print("请输入类别id:");
+        System.out.print(">Please enter a type id:");
     }
 
     public static void typeNotFound() {
-        System.err.println("未找到该类型");
+        System.err.println("Type not found");
     }
 
     public static void operateType() {
         showTypeByRid(RestaurantController.RID);
-        System.out.println("输入id修改该菜式(输入-1添加类别 输入0返回上一层 )");
-        int typeId = Input.getInt();
+        System.out.println(">Please enter a type id:(-1.Add type 0.Back)");
+        int typeId = Input.getInt("([0-9])|([1-9][0-9]+)|-1");
         if (typeId == 0) {
 
         } else if (typeId == -1) {
@@ -75,21 +75,21 @@ public class TypeView {
         } else if (TypeController.isExistByIdAndRid(typeId, RestaurantController.RID)) {
             updateType(typeId);
         } else {
-            System.out.println("输入有误,返回上一层");
+            typeNotFound();
         }
 
     }
 
     private static void updateType(int typeId) {
-        System.out.println("您选择的类别:");
+        System.out.println("The type you choose:");
         Type type = TypeController.getTypeById(typeId);
-        System.out.println("类别id:" + type.getId() + " 类别名:" + type.getName());
-        System.out.println("请选择操作(1.修改类别名 2.删除类别 0.返回主页");
+        System.out.println("Type id:" + type.getId() + " Type name:" + type.getName());
+        System.out.println(">Please enter the options:(1.Update type name 2.Delete 0.Back");
         switch (Input.getInt("[0-2]")){
         case 0:
             return;
         case 1:
-            System.out.println("请输入新的类别名:");
+            System.out.println(">Please enter a new type name:");
             type.setName(Input.getString(20));
             break;
         case 2:
@@ -109,7 +109,7 @@ public class TypeView {
     }
 
     private static void addType() {
-        System.out.println("请输入新增类别名:");
+        System.out.println(">Please enter a new type name:");
         String typeName = Input.getString(20);
         if (TypeController.addType(new Type(-1, typeName, RestaurantController.RID))){
             Main.success();

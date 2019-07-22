@@ -1,4 +1,3 @@
-
 package com.lnsf.book.view;
 
 import java.util.ArrayList;
@@ -9,35 +8,37 @@ import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.TypeController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
+import com.lnsf.book.dbutils.Output;
 import com.lnsf.book.model.Menu;
 import com.lnsf.book.service.impl.IBasicServiceImpl;
 
 public class MenuView {
     /**
-     * 自动判断用户身份并输出对应的菜单列表
-     * 普通用户输出所有菜单列表
-     * 商家输出自己的菜单列表
+     * 自动判断用户身份并输出对应的菜单列表 普通用户输出所有菜单列表 商家输出自己的菜单列表
      */
-    public static void showMenu(){
+    public static void showMenu() {
         List<Menu> list = new ArrayList<Menu>();
-//       貌似没有普通用户调用这个方法
+        // 貌似没有普通用户调用这个方法
         if (UserController.USER.getIdentify() == 1) {
             TypeView.inputTypeId();
             int typeId = Input.getInt();
-            if (!TypeController.isExist(typeId)){
+            if (!TypeController.isExist(typeId)) {
                 TypeView.typeNotFound();
                 return;
             } else {
-//                list = MenuController.getMenuListByTypeId(typeId);// 根据输入类别id返回Menu List
-//                MenuView.showMenu(list);
+                // list = MenuController.getMenuListByTypeId(typeId);//
+                // 根据输入类别id返回Menu List
+                // MenuView.showMenu(list);
             }
         } else if (UserController.USER.getIdentify() == 2) {
-            list = MenuController.getMenuListByRid(RestaurantController.RID);// 根据rid返回Menu List
+            list = MenuController.getMenuListByRid(RestaurantController.RID);// 根据rid返回Menu
+                                                                             // List
             MenuView.showMenu(list);
         } else {
             UserView.userIdentifyNotFound();
         }
     }
+
     /**
      * 根据传过来的List参数输出该菜单所有属性
      * 
@@ -45,27 +46,45 @@ public class MenuView {
      */
     public static void showMenu(List<Menu> list) {
         if (list.isEmpty()) {
-            System.out.println("菜单为空");
+            System.out.println("The menu is empty.");
         } else {
+            Output.printFormat(138);
+            Output.formatter.format(
+                    "|%-10s|%-20s|%-10s|%-10s|%-20s|%-20s|%-40s|\n", "Menu Id",
+                    "Menu name", "Price", "Number", "Type name",
+                    "Restaurant name", "Menu describe");
             for (Menu m : list) {
-                System.out.println(m.getId() + "." + m.getName() + " 价格:" + m.getPrice() + " 库存:" + m.getStock() + 
-                        " 类型:" + TypeController.getTypeNameById(m.getType()) + " 描述:" + m.getMDescribe() + 
-                        " 店铺名:" + RestaurantController.getNameByRid(m.getRid()) );
+                System.out.printf(
+                        "|%-10d|%-20s|%-10d|%-10d|%-20s|%-20s|%-40s|\n",
+                        m.getId(), m.getName(), m.getPrice(), m.getStock(),
+                        TypeController.getTypeNameById(m.getType()),
+                        RestaurantController.getNameByRid(m.getRid()),
+                        m.getMDescribe());
             }
+            Output.printFormat(138);
         }
     }
-    
+
     public static void showMenuAndHideStockIs0(List<Menu> list) {
         if (list.isEmpty()) {
-            System.out.println("菜单为空");
+            System.out.println("Menu is empty.");
         } else {
+            Output.printFormat(138);
+            Output.formatter.format(
+                    "|%-10s|%-20s|%-10s|%-10s|%-20s|%-40s|%-20s|\n", "Menu Id",
+                    "Menu name", "Price", "Number", "Type name",
+                    "Menu describe", "Restaurant name");
             for (Menu m : list) {
                 if (m.getStock() == 0)
                     continue;
-                System.out.println(m.getId() + "." + m.getName() + " 价格:" + m.getPrice() + " 库存:" + m.getStock() + 
-                        " 类型:" + TypeController.getTypeNameById(m.getType()) + " 描述:" + m.getMDescribe() + 
-                        " 店铺名:" + RestaurantController.getNameByRid(m.getRid()) );
+                System.out.printf(
+                        "|%-10d|%-20s|%-10d|%-10d|%-20s|%-40s|%-20s|\n",
+                        m.getId(), m.getName(), m.getPrice(), m.getStock(),
+                        TypeController.getTypeNameById(m.getType()),
+                        m.getMDescribe(),
+                        RestaurantController.getNameByRid(m.getRid()));
             }
+            Output.printFormat(138);
         }
     }
 
@@ -73,163 +92,161 @@ public class MenuView {
      * 菜单不存在的错误页面
      */
     public static void menuNotFound() {
-        System.err.println("菜单未找到");
+        System.err.println("Menu not found");
     }
 
     /**
      * 显示更新菜单的操作
      */
-    public static void showUpdateOperation(int menuId) {
-        System.out.println("1.更新菜式名称");
-        System.out.println("2.更新菜式价格");
-        System.out.println("3.删除该菜式");
-        System.out.println("0.返回主菜单");
-        System.out.print("请输入:");
-        int choice = Input.getInt();
-        switch (choice) {
-        case 0:
-            BgMain.businessMainView();
-            return;
-        case 1:
-            MenuView.updateMenu(menuId);
-            break;
-        case 2:
-
-            break;
-        default:
-            System.out.println("输入有误,跳转回主菜单");
-            BgMain.businessMainView();
-            break;
-        }
-    }
+    // public static void showUpdateOperation(int menuId) {
+    // Output.printFormat(40);
+    // Output.formatterOutput("1.Update menu name", 30);
+    // Output.formatterOutput("2.Update menu price", 30);
+    // Output.formatterOutput("3.Delete menu", 30);
+    // Output.formatterOutput("0.Back", 30);
+    // Output.printFormat(40);
+    // System.out.print(">Please enter the options:");
+    // int choice = Input.getInt("[0-3]");
+    // switch (choice) {
+    // case 0:
+    // BgMain.businessMainView();
+    // return;
+    // case 1:
+    // MenuView.updateMenu(menuId);
+    // break;
+    // case 2:
+    //
+    // break;
+    // default:
+    // System.out.println("输入有误,跳转回主菜单");
+    // BgMain.businessMainView();
+    // break;
+    // }
+    // }
 
     public static String inputMenuName() {
-        System.out.println("请输入新菜式名称:");
+        System.out.println(">Please enter a new menu name:");
         return Input.getString();
     }
+
     /**
      * 商家添加新菜单
      */
     public static void addMenu() {
-        if (!TypeController.isExistByRid(RestaurantController.RID)){
-            System.out.println("你的类别为空,请先添加类别再添加菜式");
+        if (!TypeController.isExistByRid(RestaurantController.RID)) {
+            System.out
+                    .println("Your category is empty, please add category first and then add menu.");
         } else {
             TypeView.showTypeByRid(RestaurantController.RID);
-            System.out.println("请输入需要添加的菜式类别id(输入0返回首页):");
-            int typeId = Input.getInt();
-            if (typeId == 0){
-                
-            } else if (TypeController.isExistByIdAndRid(typeId, RestaurantController.RID)){
-                System.out.println("请输入菜名:");
+            System.out.println(">Please enter a type id(0.Back):");
+            int typeId = Input.getInt("([0-9])|([1-9][0-9]+)");
+            if (typeId == 0) {
+
+            } else if (TypeController.isExistByIdAndRid(typeId,
+                    RestaurantController.RID)) {
+                System.out.println(">Please enter a menu name:");
                 String menuName = Input.getString(20);
-                System.out.println("请输入价格:");
+                System.out.println(">Please enter a menu price:");
                 int menuPrice = Input.getInt("([0-9])|([1-9][0-9]+)");
-                System.out.println("请输入库存");
+                System.out.println(">Please enter a menu stock");
                 int menuStock = Input.getInt("([0-9])|([1-9][0-9]+)");
-                System.out.println("请输入商品描述:");
+                System.out.println(">Please enter a menu describe");
                 String menuMDescribe = Input.getString(40);
-                System.out.println("插入的菜式信息:");
-                System.out.println("菜名:" + menuName);
-                System.out.println("价格:" + menuPrice);
-                System.out.println("库存:" + menuStock);
-                System.out.println("类型:" + TypeController.getTypeNameById(typeId));
-                System.out.println("输入1确认插入,输入0返回首页");
-                if (Input.getInt("[0-1]") == 1){
-                    if (MenuController.addMenu(new Menu(-1, menuName, menuPrice, 
-                            RestaurantController.RID, menuMDescribe, typeId, menuStock))){
+                System.out.println("Menu information:");
+                System.out.println("Menu name:" + menuName);
+                System.out.println("Menu price:" + menuPrice);
+                System.out.println("Menu stock:" + menuStock);
+                System.out.println("Menu type:"
+                        + TypeController.getTypeNameById(typeId));
+                System.out.println(">Enter 1 to confirm or 0 to exit");
+                if (Input.getInt("[0-1]") == 1) {
+                    if (MenuController.addMenu(new Menu(-1, menuName,
+                            menuPrice, RestaurantController.RID, menuMDescribe,
+                            typeId, menuStock))) {
                         Main.success();
                     } else {
                         Main.fail();
                     }
                 } else {
-                    
+
                 }
             } else {
-                System.out.println("输入类别id不存在");
+                System.out.println("Menu type id not found");
             }
         }
     }
+
     /**
-     * 商家维护菜单操作
-     * 添加,修改菜单
+     * 商家维护菜单操作 添加,修改菜单
      */
     public static void operateMenu() {
         showMenu();
-        System.out.println("输入id修改该菜式(输入-1添加菜式 输入0返回上一层 )");
+        System.out.println(">Enter menu id to modify the menu(-1.Add ,0.Back)");
         int menuId = Input.getInt("([0-9])|([1-9][0-9]+)|-1");
-        if (menuId == 0){
-            
-        } else if (menuId == -1){
+        if (menuId == 0) {
+
+        } else if (menuId == -1) {
             addMenu();
-        } else if (MenuController.isExist(menuId, RestaurantController.RID)){
+        } else if (MenuController.isExist(menuId, RestaurantController.RID)) {
             updateMenu(menuId);
         } else {
-            System.out.println("输入有误,返回上一层");
+            System.out.println("Invalid input,auto back");
         }
     }
+
     /**
-     * 更新菜式操作
-     * 更新菜名,更新价格,更新描述
-     * 删除菜式
+     * 更新菜式操作 更新菜名,更新价格,更新描述 删除菜式
      */
     public static void updateMenu(int menuId) {
-        System.out.println("选择的菜式:");
+        System.out.println("The menu item you choose:");
         Menu menu = MenuController.getMenuByMenuId(menuId);
-        System.out.println("菜式id" + menu.getId() + " 菜名:" + menu.getName() + " 价格:" + menu.getPrice() + 
-                " 库存" + menu.getStock() + 
-                " 类型:" + menu.getType() + " 描述:" + menu.getMDescribe());
-        System.out.println("请选择操作(1.修改菜名 2.修改价格 3.修改库存 4.修改描述 5.删除菜式 0.返回主页");
-        switch (Input.getInt("[0-5]")){
+        System.out.println("Menu id:" + menu.getId() + " Menu name:"
+                + menu.getName() + " Menu price:" + menu.getPrice()
+                + " Menu stock" + menu.getStock() + " Menu type:"
+                + menu.getType() + " Menu describe:" + menu.getMDescribe());
+        System.out
+                .println(">Please enter the options:(1.Update name 2.Update price 3.Update stock 4.Update describe 5.Delete 0.Back");
+        switch (Input.getInt("[0-5]")) {
         case 0:
             return;
         case 1:
-            System.out.println("请输入新菜名:");
+            System.out.println(">Please enter a new name:");
             menu.setName(Input.getString(20));
             break;
         case 2:
-            System.out.println("请输入新价格:");
+            System.out.println(">Please enter a new price:");
             menu.setPrice(Input.getInt("([0-9])|([1-9][0-9]+)"));
             break;
         case 3:
-            System.out.println("请输入新库存");
+            System.out.println(">Please enter a new stock");
             menu.setStock(Input.getInt("([0-9])|([1-9][0-9]+)"));
         case 4:
-            System.out.println("请输入新描述:");
+            System.out.println(">Please enter a new describe:");
             menu.setMDescribe(Input.getString(40));
             break;
         case 5:
-            if (MenuController.delMenuById(menu.getId())){
+            if (MenuController.delMenuById(menu.getId())) {
                 Main.success();
             } else {
                 Main.fail();
             }
             return;
         }
-        if (MenuController.updateMenu(menu)){
+        if (MenuController.updateMenu(menu)) {
             Main.success();
         } else {
             Main.fail();
         }
     }
+
     /**
      * 根据rid打印该店铺所有菜式
+     * 
      * @param rid
      */
     public static void showAllMenuByRid(int rid) {
         List<Menu> list = MenuController.getMenuListByRid(rid);
         showMenuAndHideStockIs0(list);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

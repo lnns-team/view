@@ -4,6 +4,7 @@ import com.lnsf.book.controller.MenuController;
 import com.lnsf.book.controller.RestaurantController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
+import com.lnsf.book.dbutils.Output;
 import com.lnsf.book.model.User;
 
 public class FgMain {
@@ -13,21 +14,21 @@ public class FgMain {
      */
     public static void userMainView(){
         do {
-            System.out.println("-------------------------");
-            System.out.println("|\t 1.选择餐厅 \t|");
-            System.out.println("|\t 2.我的购物车 \t|");
-            System.out.println("|\t 3.查看历史订单 \t|");
-            System.out.println("|\t 4.查看个人信息 \t|");
-            System.out.println("|\t 0.退出登录 \t|");
-            System.out.println("-------------------------");
-            System.out.println(">请输入: ");
+            Output.printFormat(40);
+            Output.formatterOutput("1.Choose a restaurant", 30);
+            Output.formatterOutput("2.My shopping cart", 30);
+            Output.formatterOutput("3.View historical orders", 30);
+            Output.formatterOutput("4.View personal information", 30);
+            Output.formatterOutput("0.Log out", 30);
+            Output.printFormat(40);
+            System.out.println(">Please enter the options:");
             switch (Input.getInt("[0-4]")) {
             case 0:
                 UserController.USER = new User(-1, "", -1, "", "");
                 RestaurantController.RID = -1;
-                System.out.println("-------------------------");
-                System.out.println("|\t您已经退出登录! \t|");
-                System.out.println("-------------------------\n");
+                Output.printFormat(40);
+                Output.formatterOutput("You have logged out", 30);
+                Output.printFormat(40);
                 return;
             case 1:
                 RestaurantView.operateRestaurant();

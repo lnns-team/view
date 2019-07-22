@@ -19,32 +19,34 @@ public class CarView {
     public static void showCar(int tid) {
         List<Car> list = CarController.getCarListByTid(tid);
         if (list.isEmpty()) {
-            System.out.println("-------------------------");
-            System.out.println("|\t当前购物车为空 \t|");
-            System.out.println("-------------------------");
+            Output.printFormat(40);
+            Output.formatterOutput("Shopping cart is empty.", 30);
+            Output.printFormat(40);
         } else {
-            System.out.println("--------------------------------------------------");
-            
-            Output.formatter.format("|%-5s\t|%-20s\t\t|%-5s\t|%-5s\t|\n", "菜式id", "菜式名:", "单价:", "数量");
+            Output.printFormat(55);
+            Output.formatter.format("|%-10s|%-20s|%-10s|%-10s|\n", "Menu Id", "Menu name", "Price", "Number");
             for (Car c : list) {
                 Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
-                Output.formatter.format("|%-5d\t|%-15s\t\t|%5d\t|%5d\t|\n", menu.getId(), menu.getName(), menu.getPrice(), 
+                Output.formatter.format("|%-10d|%-20s|%-10d|%-10d|\n", menu.getId(), menu.getName(), menu.getPrice(), 
                         c.getNum());
             }
-            System.out.println("--------------------------------------------------");
+            Output.printFormat(55);
 
         }
 
     }
 
     public static void updateCarByTidAndMid(int tid, int mid) {
-
-        System.out.println("您选择的购物车条目为:");
+        
+        System.out.println("The shopping cart item you choose is:");
         Car car = CarController.getCarByTidAndMid(tid, mid);
-        System.out.println(car.getId() + "."
-                + MenuController.getMenuByMenuId(car.getMenuid()).getName()
-                + " 数量:" + car.getNum());
-        System.out.println("请选择操作(1.修改数量 2.删除该项 0.返回)");
+        Output.printFormat(44);
+        Output.formatter.format("|%-10s|%-20s|%-10s|\n", "Cart Id", "Menu name", "Number");
+        System.out.printf("|%-10d|%-20s|%-10d|\n", car.getId(), 
+                MenuController.getMenuByMenuId(car.getMenuid()).getName(), 
+                car.getNum());
+        Output.printFormat(44);
+        System.out.println(">Please enter the options:(1.Modify item number2.Remove item 0.Back)");
         switch (Input.getInt("[0-2]")) {
         case 0:
             break;
@@ -52,15 +54,17 @@ public class CarView {
             int stock = MenuController.getStockById(mid);
             if (stock == 0) {
                 if (CarController.deleteByTidAndMid(tid, mid)) {
-                    System.out.println("该商品目前库存为0,无法继续修改,现已将其在购物车删除");
+                    System.out.println("Item stock is 0.");
+                    Main.fail();
                 } else {
-                    System.out.println("库存为0但是删除失败,不知道为什么");
+                    System.err.println("库存为0但是删除失败,不知道为什么(恭喜你找到了一个bug)");
                 }
             } else {
-                System.out.println("请输入修改数量:(当前库存为:" + stock + ")");
+                System.out.println(">Please enter the number of changes:(Item stock is:" + stock + ")");
                 int updateNum = Input.getInt("([0-9])|([1-9][0-9]+)");
                 if (updateNum > stock) {
-                    System.out.println("输入的数值大于库存.修改失败.");
+                    System.out.println("Input value is greater than stock.");
+                    Main.fail();
                 } else {
                     car.setNum(updateNum);
                     if (CarController.updateCar(car)) {
@@ -73,9 +77,9 @@ public class CarView {
             break;
         case 2:
             if (CarController.deleteByTidAndMid(tid, mid)) {
-                System.out.println("删除成功");
+                System.out.println("Remove item succeed");
             } else {
-                System.out.println("删除失败");
+                System.err.println("Remove item fail");
             }
         }
     }
