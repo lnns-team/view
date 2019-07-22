@@ -87,7 +87,7 @@ public class RestaurantView {
             System.out.println("Your shopping cart:");
             CarView.showCar(tid);
             System.out
-                    .println(">Please enter a shopping cart id:(0.Back -1.Add item -2.Checkout -3.View more information):");
+                    .println(">Please enter a shopping cart item id:(0.Back -1.Add item -2.Checkout -3.View more information):");
             int mid = Input.getInt("([0-9])|([1-9][0-9]+)|(-[1-3])");
             if (mid == 0) {
                 return;
@@ -109,7 +109,6 @@ public class RestaurantView {
                         Main.fail();
                     } else {
                         addItemToCar(tid, addmid, addNum);
-                        Main.success();
                     }
                 } else {
                     System.out.println("Item not found or item stock is 0");

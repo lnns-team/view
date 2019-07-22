@@ -24,7 +24,7 @@ public class CarView {
             Output.printFormat(40);
         } else {
             Output.printFormat(55);
-            Output.formatter.format("|%-10s|%-20s|%-10s|%-10s|\n", "Menu Id", "Menu name", "Price", "Number");
+            Output.formatter.format("|%-10s|%-20s|%-10s|%-10s|\n", "Item Id", "Item name", "Price", "Number");
             for (Car c : list) {
                 Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
                 Output.formatter.format("|%-10d|%-20s|%-10d|%-10d|\n", menu.getId(), menu.getName(), menu.getPrice(), 

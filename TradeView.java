@@ -114,12 +114,13 @@ public class TradeView {
         if (list.isEmpty()) {
             System.out.println("Unshipped order list is empty");
         } else {
+            Output.printFormat(85);
+            Output.formatter.format("|%-10s|%-10s|%-20s|%-40s|\n", "Order Id", "Order amount", "The consignee", "Shipping address");
             for (Trade t : list) {
-                System.out.println("Order id:" + t.getId() + " Order amount:"
-                        + t.getMoney() + " The consignee:"
-                        + TradeController.getUsernameByUserId(t.getUserid())
-                        + " Shipping address" + t.getAddress());
+                System.out.printf("|%-10d|%-10d|%-20s|%", t.getId(), t.getMoney(), 
+                        UserController.getUserById(t.getUserid()).getName(), t.getAddress());
             }
+            Output.printFormat(85);
         }
     }
 
