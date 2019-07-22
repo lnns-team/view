@@ -20,7 +20,7 @@ public class FgMain {
             System.out.println("|\t 4.查看个人信息 \t|");
             System.out.println("|\t 0.退出登录 \t|");
             System.out.println("-------------------------");
-            System.out.println("<--\t请输入: \t\t-->");
+            System.out.println(">请输入: ");
             switch (Input.getInt("[0-4]")) {
             case 0:
                 UserController.USER = new User(-1, "", -1, "", "");

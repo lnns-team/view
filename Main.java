@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
+import com.lnsf.book.dbutils.Output;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,14 +16,14 @@ public class Main {
      */
     public static void mianView() {
         do {
-            System.out.println("🥚🥗🥛🌭🌮🌯🍠🥟🍤🍖🍗🥩🧀");
-            System.out.println("🌮🌯🍤 欢迎使用🍔了么🍫🍿🍪🍾");
-            System.out.println("🍨🍮🍭🍬🍫🍥🍿🍪🍩🍾🍷🍹🥤🍯");
-            System.out.println("-------------------------");
-            System.out.println("|\t 1.登录🥢  \t|");
-            System.out.println("|\t 2.注册🍽  \t|");
-            System.out.println("-------------------------");
-            System.out.println("<--请输入选项,或者按0退出.-->");
+            System.out.println("🥚🥗🥛🌭🌮🌯🍠🥟🍤🌮🍗🥩🧀");
+            System.out.println("🍔  Do you feel hungry ?? 🍯");
+            System.out.println("🍨🍮🍭🍬🍫🍥🍿🍪🍩🍾🍷🍹🥤🍖");
+            System.out.println("-----------------------------------------");
+            Output.formatterOutput("1.Very Hungry!(Sign In)", 30);
+            Output.formatterOutput("2.Just a little bit.(Sign Up)", 30);
+            System.out.println("-----------------------------------------");
+            System.out.println(">请输入选项,或者按0退出:");
             switch (Input.getInt("[0-2]")) {
             case 0:
                 System.out.println("🥚🥗🥛🌭🌮🌯🍠🥟🍤🍖🍗🥩🧀");

@@ -51,7 +51,7 @@ public class RestaurantView {
      */
     public static void operateRestaurant() {
         showAllRestaurant();
-        System.out.println("<--\t请输入序号选择餐厅(输入0返回)\t-->");
+        System.out.println(">请输入序号选择餐厅(输入0返回)");
         int rid = Input.getInt("([0-9])|([1-9][0-9]+)");
         if (rid == 0) {
 
@@ -70,10 +70,8 @@ public class RestaurantView {
     public static void orderMenu(int rid) {
         if (!TradeController.isExistByUserIdAndRidAndStatus(
                 UserController.USER.getId(), rid, "未付款")) {
-            System.out.println("无购物车,创建购物车");
             TradeController.init(new Trade(-1, UserController.USER.getId(), "",
                     rid, "未付款", "", -1));
-            System.out.println("创建购物车成功");
         }
         List<Trade> list = TradeController
                 .getTradeListIdByUseridAndRidAndStatus(

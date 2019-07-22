@@ -154,6 +154,16 @@ public class TradeView {
                 case 0:
                     break;
                 case 1:
+                    List<Car> carList = CarController.getCarListByTid(trade.getId());
+                    for (Car c : carList){
+                        Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
+                        menu.setStock(menu.getStock() + c.getNum());
+                        if (MenuController.updateMenu(menu)){
+                            
+                        } else {
+                            System.out.println("退款时对应菜式的库存更新失败");
+                        }
+                    }
                     changeTradeStatusToWhat(trade, "已退款");
                     break;
                 }

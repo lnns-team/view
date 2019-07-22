@@ -13,9 +13,9 @@ public class UserView {
      * 登录页面
      */
     public static void login(){
-        System.out.println("<--\t请输入用户名:\t-->");
+        System.out.println(">请输入用户名:");
         String username = Input.getString(20);
-        System.out.println("<--\t请输入密码:\t-->");
+        System.out.println(">请输入密码:");
         String password = Input.getString(20);
         switch (UserController.login(username, password)){
         case 0:
@@ -23,6 +23,7 @@ public class UserView {
             return;
         case 1:
             RestaurantController.RID = -1;// 登录完这个值设置-1
+            UserView.loginSuccessful();
             FgMain.userMainView();
             break;
         case 2:
@@ -37,16 +38,16 @@ public class UserView {
      * 注册页面
      */
     public static void register(){
-        System.out.println("<--\t请输入需要注册的用户类型(1.普通用户 2.商家用户 0.返回):--\t>");
+        System.out.println(">请输入需要注册的用户类型(1.普通用户 2.商家用户 0.返回):");
         int input = Input.getInt("[0-2]");
         if (input == 0)
             return;
         UserController.USER.setIdentify(input);
-        System.out.println("<--\t请输入姓名:\t-->");
+        System.out.println(">请输入姓名:");
         UserController.USER.setName(Input.getString(20));
-        System.out.println("<--\t请输入用户名:\t-->");
+        System.out.println(">请输入用户名:");
         UserController.USER.setUsername(Input.getString(20));
-        System.out.println("<--\t请输入密码:\t-->");
+        System.out.println(">请输入密码:");
         UserController.USER.setPassword(Input.getString(20));
         if (UserController.registerUser(UserController.USER)){
           Main.success();
@@ -57,16 +58,17 @@ public class UserView {
                       UserController.getUserIdByUsername(UserController.USER.getUsername()));
               RestaurantView.register();
           } else {
-              System.err.println("<--\t身份既不是用户也不是商家错误\t-->");
+              System.err.println("身份既不是用户也不是商家错误");
           }
         } else {
           Main.fail();
-          System.err.println("<--\t注册失败,可能是用户名重复,请重新输入用户名\t-->");
+          System.err.println("注册失败,可能是用户名重复,请重新输入用户名");
         }
         UserController.USER = new User(-1, "", -1, "", "");// 注册完全局用户置空,回跳回登录
     }
     /**
      * 用户登录成功页面
+     * 好像没人调用?
      */
     public static void loginSuccessful(){
         if (UserController.USER.getIdentify() == 1){

@@ -1,10 +1,12 @@
 package com.lnsf.book.view;
 
+import java.util.Formatter;
 import java.util.List;
 
 import com.lnsf.book.controller.CarController;
 import com.lnsf.book.controller.MenuController;
 import com.lnsf.book.dbutils.Input;
+import com.lnsf.book.dbutils.Output;
 import com.lnsf.book.model.Car;
 import com.lnsf.book.model.Menu;
 
@@ -17,14 +19,19 @@ public class CarView {
     public static void showCar(int tid) {
         List<Car> list = CarController.getCarListByTid(tid);
         if (list.isEmpty()) {
-            System.out.println("当前购物车为空");
+            System.out.println("-------------------------");
+            System.out.println("|\t当前购物车为空 \t|");
+            System.out.println("-------------------------");
         } else {
+            System.out.println("--------------------------------------------------");
+            
+            Output.formatter.format("|%-5s\t|%-20s\t\t|%-5s\t|%-5s\t|\n", "菜式id", "菜式名:", "单价:", "数量");
             for (Car c : list) {
                 Menu menu = MenuController.getMenuByMenuId(c.getMenuid());
-                System.out.println("\t" + " 商品id:" + menu.getId()
-                        + " 菜名:" + menu.getName() + " 单价:" + menu.getPrice()
-                        + " 数量:" + c.getNum());
+                Output.formatter.format("|%-5d\t|%-15s\t\t|%5d\t|%5d\t|\n", menu.getId(), menu.getName(), menu.getPrice(), 
+                        c.getNum());
             }
+            System.out.println("--------------------------------------------------");
 
         }
 
