@@ -198,7 +198,7 @@ public class TradeView {
                     break;
                 case 1:
                     if (AppraiseController.isExist(UserController.USER.getId(), trade.getRid())){
-                        System.out.println("Your review:");
+                        System.out.print("Your review:");
                         System.out.println(AppraiseController.getAboutByUidAndRid(UserController.USER.getId(), trade.getRid()));
                         System.out.println(">Please enter the options:(1.Update review 0.Back):");
                         switch (Input.getInt("[0-1]")){
