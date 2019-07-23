@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.lnsf.book.controller.MenuController;
 import com.lnsf.book.controller.RestaurantController;
+import com.lnsf.book.controller.TradeController;
 import com.lnsf.book.controller.TypeController;
 import com.lnsf.book.controller.UserController;
 import com.lnsf.book.dbutils.Input;
 import com.lnsf.book.dbutils.Output;
 import com.lnsf.book.model.Menu;
+import com.lnsf.book.model.Trade;
 import com.lnsf.book.service.impl.IBasicServiceImpl;
 
 public class MenuView {
@@ -225,10 +227,21 @@ public class MenuView {
             menu.setMDescribe(Input.getString(40));
             break;
         case 5:
-            if (MenuController.delMenuById(menu.getId())) {
-                Main.success();
-            } else {
-                Main.fail();
+            List<Trade> tradeList = TradeController
+                    .getTradeListByRidAndNotInStatus(RestaurantController.RID,
+                            "");
+            for (Trade t : tradeList) {
+                if (MenuController.isExistByTid(t.getId())) {
+                    System.err
+                            .println("The menu binds the order,can not delete.");
+                } else {
+
+                    if (MenuController.delMenuById(menu.getId())) {
+                        Main.success();
+                    } else {
+                        Main.fail();
+                    }
+                }
             }
             return;
         }
