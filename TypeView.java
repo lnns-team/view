@@ -18,18 +18,18 @@ public class TypeView {
      * 
      * 
      */
-    public static void showType(){
+    public static void showType() {
         List<Type> list = new ArrayList<Type>();
-        //list = TypeController.
-        if (list.isEmpty()){
+        // list = TypeController.
+        if (list.isEmpty()) {
             System.out.println("Type is empty.");
         } else {
-            for (Type t : list){
+            for (Type t : list) {
                 System.out.println(t.getId() + "./t" + t.getName());
             }
             System.out.print(">Please enter a type id:");
         }
-        
+
     }
 
     /**
@@ -72,7 +72,8 @@ public class TypeView {
 
         } else if (typeId == -1) {
             addType();
-        } else if (TypeController.isExistByIdAndRid(typeId, RestaurantController.RID)) {
+        } else if (TypeController.isExistByIdAndRid(typeId,
+                RestaurantController.RID)) {
             updateType(typeId);
         } else {
             typeNotFound();
@@ -83,9 +84,11 @@ public class TypeView {
     private static void updateType(int typeId) {
         System.out.println("The type you choose:");
         Type type = TypeController.getTypeById(typeId);
-        System.out.println("Type id:" + type.getId() + " Type name:" + type.getName());
-        System.out.println(">Please enter the options:(1.Update type name 2.Delete 0.Back");
-        switch (Input.getInt("[0-2]")){
+        System.out.println("Type id:" + type.getId() + " Type name:"
+                + type.getName());
+        System.out
+                .println(">Please enter the options:(1.Update type name 2.Delete 0.Back");
+        switch (Input.getInt("[0-2]")) {
         case 0:
             return;
         case 1:
@@ -93,25 +96,32 @@ public class TypeView {
             type.setName(Input.getString(20));
             break;
         case 2:
-            if (TypeController.delTypeById(type.getId())){
-                Main.success();
+            if (MenuController.isExistByTid(type.getId())) {
+                System.err
+                        .println("Please remove the dish and then delete the type");
             } else {
-                Main.fail();
+                if (TypeController.delTypeById(type.getId())) {
+                    Main.success();
+                } else {
+                    Main.fail();
+                }
+
             }
             return;
         }
-        if (TypeController.updateType(type)){
+        if (TypeController.updateType(type)) {
             Main.success();
         } else {
             Main.fail();
         }
-        
+
     }
 
     private static void addType() {
         System.out.println(">Please enter a new type name:");
         String typeName = Input.getString(20);
-        if (TypeController.addType(new Type(-1, typeName, RestaurantController.RID))){
+        if (TypeController.addType(new Type(-1, typeName,
+                RestaurantController.RID))) {
             Main.success();
         } else {
             Main.fail();
